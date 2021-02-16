@@ -4,22 +4,19 @@ import java.util.Iterator;
 
 class Iterators {
 
-    public static Iterator<Integer> intArrayTwoTimesIterator(int[] array){
-        throw new UnsupportedOperationException();
+    public static Iterator<Integer> intArrayTwoTimesIterator(int[] array) {
+        return new TwoTimesIterator(array);
     }
 
     public static Iterator<Integer> intArrayThreeTimesIterator(int[] array) {
-        throw new UnsupportedOperationException();
+        return new ThreeTimesIterator(array);
     }
 
     public static Iterator<Integer> intArrayFiveTimesIterator(int[] array) {
-        throw new UnsupportedOperationException();
-        }
-
-    public static Iterable<String> table(String[] columns, int[] rows){
-        throw new UnsupportedOperationException();
+        return new FiveTimesIterator(array);
     }
 
-
-
+    public static Iterable<String> table(String[] columns, int[] rows) {
+        return new TableIterator(columns, rows);
+    }
 }

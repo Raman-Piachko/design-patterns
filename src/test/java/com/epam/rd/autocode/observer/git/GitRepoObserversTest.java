@@ -51,7 +51,7 @@ public class GitRepoObserversTest {
                 commitReadmeWebHook.caughtEvents().toString()
         );
         assertEquals(
-                "[Event[COMMIT, branch, " +
+                "[Event[MERGE, master, " +
                         "[Commit[Johnny Mnemonic, [Added README.md, Added project description]]," +
                         " Commit[Johnny Mnemonic, [Added functional requirements]]," +
                         " Commit[Johnny Silverhand, [Added cyberanarchy manifest]]]]]",
@@ -63,6 +63,7 @@ public class GitRepoObserversTest {
     @Test
     public void readmeCaseWithPreviousCommits() {
         final Repository repo = GitRepoObservers.newRepository();
+
         repo.commit(
                 "dev-readme",
                 "Johnny Mnemonic",
@@ -115,7 +116,7 @@ public class GitRepoObserversTest {
                 commitReadmeWebHook.caughtEvents().toString()
         );
         assertEquals(
-                "[Event[COMMIT, branch, " +
+                "[Event[MERGE, master, " +
                         "[Commit[Johnny Mnemonic, [Added README.md, Added project description]]," +
                         " Commit[Johnny Mnemonic, [Added functional requirements]]," +
                         " Commit[Johnny Silverhand, [Added cyberanarchy manifest]]]]]",
@@ -183,7 +184,7 @@ public class GitRepoObserversTest {
                 commitReadmeWebHook.caughtEvents().toString()
         );
         assertEquals(
-                "[Event[COMMIT, branch, " +
+                "[Event[MERGE, master, " +
                         "[Commit[Johnny Mnemonic, [Added README.md, Added project description]]," +
                         " Commit[Johnny Mnemonic, [Added functional requirements]]," +
                         " Commit[Johnny Silverhand, [Added cyberanarchy manifest]]]]]",
@@ -257,7 +258,7 @@ public class GitRepoObserversTest {
                 commitReadmeWebHook.caughtEvents().toString()
         );
         assertEquals(
-                "[Event[COMMIT, branch, " +
+                "[Event[MERGE, master, " +
                         "[Commit[Johnny Mnemonic, [Added README.md, Added project description]]," +
                         " Commit[Johnny Mnemonic, [Added functional requirements]]," +
                         " Commit[Johnny Silverhand, [Added cyberanarchy manifest]]]]]",
@@ -265,7 +266,7 @@ public class GitRepoObserversTest {
         );
 
         assertEquals(
-                "[Event[COMMIT, branch, [Commit[CrashOverrider, [Added full implementation]]]]]",
+                "[Event[MERGE, master, [Commit[CrashOverrider, [Added full implementation]]]]]",
                 mergeReadmeWebHook.caughtEvents().toString()
         );
 

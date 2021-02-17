@@ -4,20 +4,30 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.StringJoiner;
 
-public class Commit{
+public class Commit {
+    private String branch;
     private String author;
     private String[] changes;
 
-    public Commit(final String author, final String[] changes) {
+    public Commit(String branch, final String author, final String[] changes) {
+        this.branch = branch;
         this.author = author;
         this.changes = changes;
     }
 
-    String author(){
+    void setBranch(String branch) {
+        this.branch = branch;
+    }
+
+    String branch() {
+        return branch;
+    }
+
+    String author() {
         return author;
     }
 
-    String[] changes(){
+    String[] changes() {
         return changes;
     }
 

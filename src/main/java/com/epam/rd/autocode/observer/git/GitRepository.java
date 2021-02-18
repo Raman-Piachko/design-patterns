@@ -25,17 +25,21 @@ public class GitRepository implements Repository {
     @Override
     public Commit commit(String branch, String author, String[] changes) {
         Commit commit = new Commit(branch, author, changes);
-        commits.add(commit);
-        webHooks.stream()
-                .filter(webHook -> webHook.type().equals(COMMIT) && webHook.branch().equals(branch))
-                .forEach(webHook -> webHook.onEvent(new Event(COMMIT, branch, Collections.singletonList(commit))));
+        if (!webHooks.isEmpty()) {
+            commits.add(commit);
+            webHooks.stream()
+                    .filter(webHook -> webHook.type().equals(COMMIT) && webHook.branch().equals(branch))
+                    .forEach(webHook -> webHook.onEvent(new Event(COMMIT, branch, Collections.singletonList(commit))));
+        }
         return commit;
     }
 
     @Override
     public void merge(String sourceBranch, String targetBranch) {
         List<Commit> targetBranchCommit = getCommits(sourceBranch, targetBranch);
-        notifyHooksAboutMerge(targetBranch, targetBranchCommit);
+        if (isMergeWebHook(webHooks)) {
+            notifyHooksAboutMerge(targetBranch, targetBranchCommit);
+        }
     }
 
     private List<Commit> getCommits(String sourceBranch, String targetBranch) {
@@ -49,5 +53,12 @@ public class GitRepository implements Repository {
         webHooks.stream()
                 .filter(webHook -> webHook.type().equals(MERGE) && webHook.branch().equals(targetBranch))
                 .forEach(webHook -> webHook.onEvent(new Event(MERGE, targetBranch, targetBranchCommit)));
+    }
+
+    private boolean isMergeWebHook(List<WebHook> webHooks) {
+        return webHooks.stream()
+                .findFirst()
+                .filter(webHook -> webHook.type().equals(MERGE))
+                .isPresent();
     }
 }

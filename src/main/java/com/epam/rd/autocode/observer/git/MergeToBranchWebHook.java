@@ -2,6 +2,7 @@ package com.epam.rd.autocode.observer.git;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MergeToBranchWebHook implements WebHook {
     private String branchName;
@@ -24,7 +25,7 @@ public class MergeToBranchWebHook implements WebHook {
 
     @Override
     public List<Event> caughtEvents() {
-        return events;
+        return events.stream().distinct().collect(Collectors.toList());
     }
 
     @Override

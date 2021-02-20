@@ -266,7 +266,7 @@ public class GitRepoObserversTest {
         );
 
         assertEquals(
-                "[Event[MERGE, master, [Commit[CrashOverrider, [Added full implementation]]]]]",
+                "[Event[MERGE, dev-readme, [Commit[CrashOverrider, [Added full implementation]]]]]",
                 mergeReadmeWebHook.caughtEvents().toString()
         );
 

@@ -30,7 +30,9 @@ public class MergeToBranchWebHook implements WebHook {
 
     @Override
     public void onEvent(Event event) {
-        events.add(event);
+        if (events.isEmpty()) {
+            events.add(event);
+        }
     }
 
     @Override

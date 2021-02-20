@@ -2,7 +2,9 @@ package com.epam.rd.autocode.observer.git;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.epam.rd.autocode.observer.git.Event.Type.COMMIT;
@@ -37,12 +39,12 @@ public class GitRepository implements Repository {
     @Override
     public void merge(String sourceBranch, String targetBranch) {
         List<Commit> sourceBranchCommits = getCommits(sourceBranch);
-        List<Commit> targetBranchCommit = getCommits(sourceBranch);
+        List<Commit> targetBranchCommit = getCommits(targetBranch);
         targetBranchCommit.addAll(sourceBranchCommits);
-        targetBranchCommit = targetBranchCommit.stream().distinct().collect(Collectors.toList());
 
+        Set<Commit> uniqueCommits = new HashSet<>(sourceBranchCommits);
         if (isMergeWebHook(webHooks)) {
-            notifyHooksAboutMerge(targetBranch, targetBranchCommit);
+            notifyHooksAboutMerge(targetBranch, new ArrayList<>(uniqueCommits));
         }
     }
 

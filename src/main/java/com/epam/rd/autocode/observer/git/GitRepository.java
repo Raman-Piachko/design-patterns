@@ -36,16 +36,19 @@ public class GitRepository implements Repository {
 
     @Override
     public void merge(String sourceBranch, String targetBranch) {
-        List<Commit> targetBranchCommit = getCommits(sourceBranch, targetBranch);
+        List<Commit> sourceBranchCommits = getCommits(sourceBranch);
+        List<Commit> targetBranchCommit = getCommits(sourceBranch);
+        targetBranchCommit.addAll(sourceBranchCommits);
+        targetBranchCommit = targetBranchCommit.stream().distinct().collect(Collectors.toList());
+
         if (isMergeWebHook(webHooks)) {
             notifyHooksAboutMerge(targetBranch, targetBranchCommit);
         }
     }
 
-    private List<Commit> getCommits(String sourceBranch, String targetBranch) {
+    private List<Commit> getCommits(String branch) {
         return commits.stream()
-                .filter(commit -> commit.branch().equals(sourceBranch))
-                .peek(commit -> commit.setBranch(targetBranch))
+                .filter(commit -> commit.branch().equals(branch))
                 .collect(Collectors.toList());
     }
 

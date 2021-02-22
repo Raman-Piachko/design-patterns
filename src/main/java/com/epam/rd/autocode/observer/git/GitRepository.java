@@ -39,12 +39,9 @@ public class GitRepository implements Repository {
     @Override
     public void merge(String sourceBranch, String targetBranch) {
         List<Commit> sourceBranchCommits = getCommits(sourceBranch);
-        List<Commit> targetBranchCommit = getCommits(targetBranch);
-        targetBranchCommit.addAll(sourceBranchCommits);
 
-        Set<Commit> uniqueCommits = new HashSet<>(sourceBranchCommits);
         if (isMergeWebHook(webHooks)) {
-            notifyHooksAboutMerge(targetBranch, new ArrayList<>(uniqueCommits));
+            notifyHooksAboutMerge(targetBranch, sourceBranchCommits);
         }
     }
 
